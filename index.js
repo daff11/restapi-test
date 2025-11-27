@@ -12,4 +12,6 @@ app.use("/", appRoutes);
 setupSwagger(app);
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`))
+app.listen(PORT, () => {
+  console.log("Server running on", PORT);
+});
