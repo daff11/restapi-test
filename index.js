@@ -11,4 +11,5 @@ app.use("/", appRoutes);
 
 setupSwagger(app);
 
-app.listen(process.env.DB_HOST, () => console.log(`Server running on ${process.env.DB_PORT}`))
+const PORT = process.env.PORT;
+app.listen(PORT, () => console.log(`Server running on ${PORT}`))
