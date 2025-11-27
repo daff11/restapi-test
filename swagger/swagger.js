@@ -17,7 +17,7 @@ const options = {
     ],
     servers: [
       {
-        url: "http://localhost:3003",
+        url: process.env.BASE_URL,
       },
     ],
     components: {
