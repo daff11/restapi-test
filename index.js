@@ -6,9 +6,11 @@ const appRoutes = require("./routes/appRoutes.js");
 
 app.use(express.json());
 
-app.use("/", appRoutes);
-
 setupSwagger(app);
+
+app.get("/", (req, res) => {
+  res.send("API OK");
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
