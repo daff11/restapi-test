@@ -212,7 +212,6 @@ const createTransaction = async (req, res) => {
  *         name: limit
  *         schema:
  *           type: integer
- *           default: 3
  *     responses:
  *       200:
  *         description: Get History Berhasil
@@ -222,13 +221,19 @@ const createTransaction = async (req, res) => {
 const getTransactionHistory = async (req, res) => {
   try {
     const { id } = req.user;
-    let { offset = 0, limit = 3 } = req.query;
+    let { offset = 0, limit } = req.query;
 
     // Set offset dan limit
     offset = Number(offset);
-    limit = Number(limit);
     if (isNaN(offset) || offset < 0) offset = 0;
-    if (isNaN(limit) || limit <= 0) limit = 3;
+
+        // jika limit tidak dikirim, ambil semua data
+    let limitQuery = "";
+    if (limit !== undefined) {
+      limit = Number(limit);
+      if (isNaN(limit) || limit <= 0) limit = 3;
+      limitQuery = `LIMIT ${limit} OFFSET ${offset}`;
+    }
 
     const [rows] = await db.execute(
       `SELECT 
@@ -244,8 +249,8 @@ const getTransactionHistory = async (req, res) => {
        LEFT JOIN service s ON th.service_code = s.service_code
        WHERE th.user_id = ?
        ORDER BY th.created_at DESC
-       LIMIT ?, ?`,
-      [id, offset, limit]
+       ${limitQuery}`,
+      [id]
     );
 
     return res.status(200).json({
