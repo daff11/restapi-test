@@ -42,7 +42,7 @@ const specs = swaggerJsdocs(options);
 
 console.log(specs);
 const setupSwagger = (app) => {
-    app.use("/", swaggerUi.serve, swaggerUi.setup(specs));
+    app.use("/docs", swaggerUi.serve, swaggerUi.setup(specs));
 };
 
 module.exports = setupSwagger;
