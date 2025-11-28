@@ -3,7 +3,10 @@ const path = require("path");
 const fs = require("fs");
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    const allowedExtensions = [".jpg", ".jpeg", ".png"];
+    const ext = path.extname(file.originalname).toLowerCase();
+
+    if ((file.mimetype === "image/jpeg" || file.mimetype === "image/png") && allowedExtensions.includes(ext)) {
         cb(null, true);
     } else {
         cb(new Error("FORMAT_NOT_ALLOWED"));
